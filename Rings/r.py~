@@ -1,0 +1,58 @@
+
+
+def rings():
+	i = input().split()
+	rc = [int(e) for e in i]
+	rows = rc[0]
+	cols = rc[1]
+	grid = []
+	for i in range(rows):
+		rStr = input()
+		row = [c for c in rStr]
+		grid.append(row)
+	
+	for i in range(max(rows,cols)):
+		grid = markRing(grid,i+1)
+	for row in grid:
+		print(row)
+	#return grid	
+	
+def markRing(L,ringNum):
+	top = False
+	bottom = False
+	
+	#mark top
+	for i,row in enumerate(L):
+		for j,col in enumerate(row):
+			if not top: # mark all Ts as ringNum
+				if col == 'T':
+					L[i][j] = ringNum
+					top = True
+	#mark bottom
+	for r in range(len(L)-1,-1,-1):
+		for j,col in enumerate(row):
+			if not top: # mark all Ts as ringNum
+				if col == 'T':
+					L[i][j] = ringNum
+					bottom = True
+					
+	#mark mid
+	for i,row in enumerate(L):
+		firstEdge = False
+		lastEdge = False
+		for j,col in enumerate(row):
+			if not firstEdge: # mark all Ts as ringNum
+				if col == 'T':
+					L[i][j] = ringNum
+					firstEdge = True
+			elif not lastEdge: #might have to iterate backwards for lastedge
+				if col != 'T':
+					L[i][j-1] = ringNum
+					lastEdge = True
+				elif j == len(row)-1:
+					print("BOI WHATS WRONG")
+					L[i][j] = ringNum
+					lastEdge = True
+	return L
+					
+rings()
